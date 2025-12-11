@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Untuk Kamu — Spesial</title>
+
   <style>
     :root {
       --bg-dark: #0d0d0d;
@@ -17,7 +18,7 @@
     }
 
     * {
-      box-sizing: border-box
+      box-sizing: border-box;
     }
 
     html,
@@ -27,54 +28,62 @@
       background: linear-gradient(135deg, var(--bg-dark), #081126);
       font-family: 'Poppins', system-ui, Segoe UI, Roboto, Arial;
       color: var(--text);
-      -webkit-font-smoothing: antialiased
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* app shell */
+    /* =======================
+       APP LAYOUT FIX
+    ======================== */
     .app {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px
+      padding: 0; /* hilangkan jarak */
     }
 
+    /* =======================
+       CARD FIXED RESPONSIVE
+    ======================== */
     .card {
-      width: 360px;
-      max-width: calc(100% - 48px);
+      width: 90%;            /* hampir full di HP */
+      max-width: 420px;      /* tetap rapi di desktop */
       border-radius: var(--radius);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
       box-shadow: 0 10px 30px rgba(4, 8, 20, 0.6);
       overflow: hidden;
-      position: relative
+      position: relative;
     }
 
-    /* Header / progress */
+    /* =======================
+       PROGRESS DOTS
+    ======================== */
     .progress {
       display: flex;
       gap: 6px;
       padding: 14px 18px;
-      align-items: center;
-      justify-content: center
+      justify-content: center;
     }
 
     .dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12)
+      background: rgba(255, 255, 255, 0.12);
     }
 
     .dot.active {
-      background: var(--accent)
+      background: var(--accent);
     }
 
-    /* pages container */
+    /* =======================
+       PAGE CONTAINER FIX
+    ======================== */
     .pages {
       position: relative;
-      height: 520px;
       min-height: 60vh;
-      overflow: hidden
+      max-height: calc(100vh - 150px); /* supaya area ini scroll */
+      overflow-y: auto;
     }
 
     .page {
@@ -83,41 +92,42 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 28px;
       text-align: center;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(12px)
+      transform: translateY(12px);
     }
 
     .page.active {
       opacity: 1;
       pointer-events: auto;
       transform: none;
-      transition: opacity .6s ease, transform .6s cubic-bezier(.2, .9, .3, 1)
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2, .9, .3, 1);
     }
 
+    /* TEXT */
     h1 {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       font-size: 1.8rem;
       color: var(--accent-2);
-      text-shadow: 0 0 12px rgba(255, 160, 200, 0.6)
+      text-shadow: 0 0 12px rgba(255, 160, 200, 0.6);
     }
 
     p {
       margin: 0;
       font-size: 1rem;
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.95)
+      color: rgba(255, 255, 255, 0.95);
     }
 
+    /* CONTROLS */
     .controls {
       display: flex;
       gap: 12px;
       justify-content: center;
       padding: 18px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.12), transparent)
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.12), transparent);
     }
 
     .btn {
@@ -128,28 +138,38 @@
       background: var(--accent);
       color: white;
       font-weight: 600;
-      text-decoration: none;
       cursor: pointer;
       box-shadow: 0 6px 18px rgba(228, 20, 118, 0.18);
-      transition: transform .15s ease
+      transition: transform .15s ease;
     }
 
     .btn:active {
-      transform: translateY(1px)
+      transform: translateY(1px);
     }
 
     .btn.secondary {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(6px)
+      backdrop-filter: blur(6px);
     }
 
-    /* special visuals */
-    .card .title-glow {
-      font-weight: 700
+    /* PAGE 5 BG IMAGE */
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.42) blur(2px);
+      z-index: 0;
     }
 
-    /* hearts (page3) */
+    .page .content {
+      position: relative;
+      z-index: 2;
+      max-width: 90%;
+    }
+
+    /* HEARTS */
     .heart {
       position: fixed;
       left: -100px;
@@ -157,63 +177,34 @@
       font-size: 18px;
       color: #ff6da6;
       opacity: .9;
-      pointer-events: none
+      pointer-events: none;
     }
 
-    /* confetti (page4) */
+    /* CONFETTI */
     .confetti-piece {
       position: fixed;
       top: -10px;
       width: 8px;
       height: 12px;
       opacity: 0.95;
-      border-radius: 2px
+      border-radius: 2px;
     }
 
-    /* page 5 background overlay */
-    .bg-photo {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: brightness(.42) blur(2px);
-      z-index: 0
-    }
-
-    .page .content {
-      position: relative;
-      z-index: 2;
-      max-width: 86%
-    }
-
-    /* responsive tweaks */
-    @media (min-width:420px) {
-      .card {
-        width: 400px
-      }
-    }
-
-    @media (max-height:600px) {
-      .pages {
-        height: 460px
-      }
-    }
-
-    /* subtle entrance for buttons/text */
+    /* FADE ANIMATION */
     .fade-slow {
       opacity: 0;
       transform: translateY(6px);
-      animation: fadeUp .9s forwards
+      animation: fadeUp .9s forwards;
     }
 
     .fade-slow.delay {
-      animation-delay: .8s
+      animation-delay: .8s;
     }
 
     @keyframes fadeUp {
       to {
         opacity: 1;
-        transform: none
+        transform: none;
       }
     }
   </style>
@@ -221,9 +212,11 @@
 
 <body>
   <div class="app">
-    <div class="card" role="application" aria-label="Website spesial">
 
-      <div class="progress" aria-hidden="true">
+    <div class="card" role="application">
+
+      <!-- Progress -->
+      <div class="progress">
         <div class="dot" data-step="1"></div>
         <div class="dot" data-step="2"></div>
         <div class="dot" data-step="3"></div>
@@ -231,26 +224,26 @@
         <div class="dot" data-step="5"></div>
       </div>
 
+      <!-- Pages -->
       <div class="pages">
         <div class="bg-photo" id="bg-photo"></div>
+
         <!-- PAGE 1 -->
         <section class="page" id="page-1">
-
           <div class="content">
             <h1 class="title-glow">Untuk Wanita Favoritku 💗</h1>
-            <p class="fade-slow">Ini memang bukan website besar atau mewah—
-              tapi dibuat dengan sederhana untuk hari yang istimewa.
-              
+            <p class="fade-slow">
+              Ini memang bukan website besar atau mewah—tapi dibuat dengan sederhana untuk hari yang istimewa.
               Hari ini dunia terasa sedikit lebih bermakna,
               karena menjadi hari seorang Putri Audia Syam dilahirkan.
-              
+
               Dan bagi saya, ini juga hari yang spesial,
               karena saya bisa berada di titik
               di mana saya dapat melihatmu
               lebih dekat daripada sebelumnya.
             </p>
-            <div style="height:18px"></div>
-            <div class="controls" style="background: none; padding-top: 0;">
+            <div style="height:20px"></div>
+            <div class="controls" style="background:none; padding-top:0;">
               <button class="btn fade-slow delay" data-next id="play-btn">Mulai</button>
             </div>
           </div>
@@ -260,259 +253,209 @@
         <section class="page" id="page-2">
           <div class="content">
             <h1 class="title-glow">Olaa, My Queen 💗</h1>
-            <p class="fade-slow">Kita sudah lama saling tahu,
-                tapi baru belakangan ini kita benar-benar saling membuka.
-                Dan dari semua fase itu,
-                saya menyadari satu hal:
-                ada sesuatu dalam dirimu yang selalu membuatku kembali.
-                dan itulah yang selalu menjadi alasan kenapa saya begitu yakinn 
-                dengan seorang Audyyy. 
-                Dia...
+            <p class="fade-slow">
+              Kita sudah lama saling tahu,
+              tapi baru belakangan ini kita benar-benar saling membuka.
+
+              Dan dari semua fase itu,
+              saya menyadari satu hal:
+              ada sesuatu dalam dirimu yang selalu membuatku kembali.
+
+              dan itulah yang selalu menjadi alasan kenapa saya begitu yakin
+              dengan seorang Audyyy.
             </p>
             <div style="height:18px"></div>
-            <button class="btn fade-slow delay" data-next>Lanjut ?...</button>
+            <button class="btn fade-slow delay" data-next>Lanjut?...</button>
           </div>
         </section>
 
-        <!-- PAGE 3 (hearts) -->
+        <!-- PAGE 3 -->
         <section class="page" id="page-3">
           <div class="content">
-            <h1 class="title-glow">Masih di sini? Tentang Dia… 💗</h1>
-            <p class="fade-slow">Dia sabar dalam setiap situasi,
-                tulus dalam setiap perhatian,
-                dan mandiri dalam cara menjalani hidupnya.
-                
-                Tapi di balik itu semua, dia tetap ingin dimanja,
-                dan senyum cerianya selalu punya cara
-                untuk membuat hari-hariku lebih ringan.
-                
-                Setiap detik melihat odyy saya merasa nyaman,
-                dan tak pernah bosan untuk kembali padanya.
+            <h1 class="title-glow">Tentang Dia… 💗</h1>
+            <p class="fade-slow">
+              Dia sabar dalam setiap situasi,
+              tulus dalam setiap perhatian,
+              dan mandiri dalam cara menjalani hidupnya.
+
+              Tapi di balik itu semua, dia tetap ingin dimanja.
+              Senyum cerianya selalu punya cara
+              untuk membuat hari-hariku lebih ringan.
             </p>
             <div style="height:18px"></div>
-            <button class="btn fade-slow delay" data-next>  Wajib Lanjut sih 👀</button>
+            <button class="btn fade-slow delay" data-next>Wajib Lanjut 👀</button>
           </div>
         </section>
 
-        <!-- PAGE 4 (birthday) -->
+        <!-- PAGE 4 -->
         <section class="page" id="page-4">
           <div class="content">
-            <h1 class="title-glow">Selamat Ulang Tahun <br> Putri Audia Syam 🎉</h1>
-            <p class="fade-slow">Hari ini adalah harimuu. 
-                Semoga setiap langkahmu dimudahkan,
-                setiap impianmu menemukan jalannya,
-                dan setiap senyummu selalu bertahan di wajahmu.
-                
-                Semoga Odyy selalu dikelilingi kebaikan,
-                tetap sabar, tulus, mandiri, ceria,
-                dan optimis menghadapi segala hal seperti yang saya kenal.
+            <h1 class="title-glow">Selamat Ulang Tahun 🎉</h1>
+            <p class="fade-slow">
+              Semoga setiap langkahmu dimudahkan,
+              setiap impianmu menemukan jalannya,
+              dan setiap senyummu selalu bertahan.
 
-                Saya berharap Odyy selalu memberi waktu untuk diri sendiri,
-                tetap menjaga hati dan kebahagiaan sendiri,
-                dan menjadi versi terbaik dari diri Odyy untuk diri sendiri.
+              Semoga Odyy selalu dikelilingi kebaikan,
+              tetap sabar, tulus, mandiri, ceria,
+              dan optimis menjalani hidup.
             </p>
             <div style="height:18px"></div>
             <button class="btn fade-slow delay" data-next>Lihat Pesan Khusus</button>
           </div>
         </section>
 
-        <!-- PAGE 5 (special message) -->
+        <!-- PAGE 5 FINAL -->
         <section class="page" id="page-5">
-          
           <div class="content">
             <h1 class="title-glow">Untuk Kamu… Sayangku 💗</h1>
-            <p class="fade-slow">Sayanggku kita mungkin baru mulai,
+            <p class="fade-slow">
+              Sayanggku kita mungkin baru mulai,
               tapi setiap momen bersamamu terasa begitu berarti.
-              
+
               Saya menyukai cara Odyy hadir dalam hidup saya—
               tenang, tulus, ceria, mandiri, dan optimis.
-              Hal itu membuat saya merasa nyaman,
-              dan selalu ingin dekat dengan Odyy.
-              
+
               Di hari ulang tahunmu ini,
               saya cuma ingin mengatakan satu hal:
-              saya senang memilih Odyy, hari ini, esok, dan seterusnya.
-              
-              Selamat ulang tahun, Putri Audia Syam.
-              Semoga setiap harimu penuh harapan, senyum, dan semangat seperti dirimu,
-              dan semoga kita bisa terus berjalan bersama, belajar bersama, berkembang bersama dan dan sukses bersama
-              membangun cerita kita sedikit demi sedikit.
-              LOVE U PUTRI AUDIA SYAM
+              saya senang memilih Odyy,
+              hari ini, esok, dan seterusnya.
             </p>
             <div style="height:18px"></div>
             <button class="btn fade-slow delay" id="btn-finish">Selesai ❤️</button>
           </div>
         </section>
-
       </div>
 
+      <!-- Controls Bottom -->
       <div class="controls">
         <button class="btn secondary" id="btn-prev">Kembali</button>
         <button class="btn" id="btn-next">Lanjut</button>
       </div>
-
     </div>
   </div>
 
-  <!-- persistent audio (replace assets/music.mp3 with your file) -->
+  <!-- MUSIC -->
   <audio id="bg-music" src="assets/music.mp3" autoplay loop muted></audio>
 
-
-
   <script>
+    /* =================== PAGE LOGIC ===================== */
+    const pages = [...document.querySelectorAll(".page")];
+    const dots = [...document.querySelectorAll(".dot")];
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const bgPhoto = document.getElementById("bg-photo");
 
-    (function () {
+    let idx = 0;
 
+    bgPhoto.style.backgroundImage = "url('assets/bg-final.jpg')";
 
+    function show(i) {
+      pages.forEach((p, n) => p.classList.toggle("active", n === i));
+      dots.forEach((d, n) => d.classList.toggle("active", n === i));
+      idx = i;
 
+      btnPrev.style.display = idx === 0 ? "none" : "inline-block";
+      btnNext.style.display = idx === pages.length - 1 ? "none" : "inline-block";
+    }
 
-      const pages = Array.from(document.querySelectorAll('.page'));
-      const dots = Array.from(document.querySelectorAll('.dot'));
-      const btnPrev = document.getElementById('btn-prev');
-      const btnNext = document.getElementById('btn-next');
-      let idx = 0; // current page index
+    show(0);
 
-      // set background photo for page 5 (replace path if needed)
-      const bgPhoto = document.getElementById('bg-photo');
-      bgPhoto.style.backgroundImage = "url('assets/bg-final.jpg')";
-      const music = new Audio('assets/music.mp3');
-      music.loop = true;
-      document.addEventListener("click", () => {
-        const music = document.getElementById("bg-music");
-        if (music.muted) {
-          music.muted = false;
-          music.volume = 1.0;     // kembalikan volume
-        }
-      });
+    document.querySelectorAll("[data-next]").forEach(b =>
+      b.addEventListener("click", () => { if (idx < pages.length - 1) show(idx + 1); })
+    );
 
-      function show(i) {
-        pages.forEach((p, n) => {
-          p.classList.toggle('active', n === i);
-        });
-        dots.forEach((d, n) => d.classList.toggle('active', n === i));
-        idx = i;
-        updateControls();
-      }
+    btnPrev.addEventListener("click", () => idx > 0 && show(idx - 1));
+    btnNext.addEventListener("click", () => idx < pages.length - 1 && show(idx + 1));
 
-      function updateControls() {
-        btnPrev.style.display = idx === 0 ? 'none' : 'inline-block';
-        btnNext.style.display = idx === pages.length - 1 ? 'none' : 'inline-block';
-      }
+    document.getElementById("btn-finish").addEventListener("click", () => show(0));
 
-      // initial
-      show(0);
-
-      // attach data-next buttons inside pages
-      document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
-        if (idx < pages.length - 1) show(idx + 1);
-      }));
-
-      // main prev/next
-      btnPrev.addEventListener('click', () => { if (idx > 0) show(idx - 1); });
-      btnNext.addEventListener('click', () => { if (idx < pages.length - 1) show(idx + 1); });
-
-      // finish button returns to start
-      document.getElementById('btn-finish').addEventListener('click', () => show(0));
-
-      // hearts animation (page 3)
-      function createHeart() {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.textContent = '❤';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.top = '-10vh';
-        heart.style.fontSize = (12 + Math.random() * 18) + 'px';
-        document.body.appendChild(heart);
-        const dur = 3000 + Math.random() * 3000;
-        heart.animate([
-          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-          { transform: `translateY(${window.innerHeight + 200}px) rotate(360deg)`, opacity: 0.6 }
-        ], { duration: dur, easing: 'linear' });
-        setTimeout(() => heart.remove(), dur + 50);
-      }
-      let heartsInterval;
-      // confetti animation (page 4)
-      function createConfetti() {
-        const el = document.createElement('div');
-        el.className = 'confetti-piece';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.background = `hsl(${Math.random() * 360} 80% 60%)`;
-        el.style.top = '-10px';
-        document.body.appendChild(el);
-        const dur = 2000 + Math.random() * 2000;
-        el.animate([
-          { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-          { transform: `translateY(${window.innerHeight + 200}px) rotate(540deg)`, opacity: 0.8 }
-        ], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
-        setTimeout(() => el.remove(), dur + 50);
-      }
-      let confettiInterval;
-
-      // listen for page change to toggle animations
-      const observer = new MutationObserver(() => {
-        if (pages[2].classList.contains('active')) {
-          if (!heartsInterval) heartsInterval = setInterval(createHeart, 350);
-        } else {
-          clearInterval(heartsInterval); heartsInterval = null;
-        }
-        if (pages[3].classList.contains('active')) {
-          if (!confettiInterval) confettiInterval = setInterval(createConfetti, 180);
-        } else { clearInterval(confettiInterval); confettiInterval = null; }
-      });
-      observer.observe(pages[0], { attributes: true, attributeFilter: ['class'] });
-      observer.observe(pages[1], { attributes: true, attributeFilter: ['class'] });
-      observer.observe(pages[2], { attributes: true, attributeFilter: ['class'] });
-      observer.observe(pages[3], { attributes: true, attributeFilter: ['class'] });
-      observer.observe(pages[4], { attributes: true, attributeFilter: ['class'] });
-
-      // swipe support (mobile)
-      let startX = null;
-      document.addEventListener('touchstart', e => startX = e.changedTouches[0].clientX);
-      document.addEventListener('touchend', e => {
-        if (startX === null) return;
-        const endX = e.changedTouches[0].clientX;
-        const dx = endX - startX;
-        if (Math.abs(dx) > 50) { if (dx < 0 && idx < pages.length - 1) show(idx + 1); if (dx > 0 && idx > 0) show(idx - 1); }
-        startX = null;
-      });
-
-      // play background music — must be triggered by user gesture on some browsers
-      const audio = document.getElementById('bgm');
-      function tryPlay() {
-        audio.play().catch(() => {/* silence */ });
-      }
-      // try auto-play once page loads (many mobile browsers block auto-play until interaction)
-      window.addEventListener('load', tryPlay);
-      // if user clicks anywhere in app, try play (this ensures playback on mobile)
-      document.querySelector('.card').addEventListener('click', tryPlay, { once: true });
-
-      // keyboard support
-      document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowRight' || e.key === 'Enter') { if (idx < pages.length - 1) show(idx + 1); }
-        if (e.key === 'ArrowLeft') { if (idx > 0) show(idx - 1); }
-      });
-
-    })();
-  </script>
-
-
-  <script>
+    /* =================== AUDIO ===================== */
     const music = document.getElementById("bg-music");
 
-    music.play().then(() => {
-      document.getElementById("play-btn").style.display = "none";
-    }).catch(() => {
-      // Kalau autoplay gagal, munculkan tombol
-      document.getElementById("play-btn").style.display = "block";
+    document.addEventListener("click", () => {
+      if (music.muted) {
+        music.muted = false;
+        music.play();
+      }
     });
 
-    document.getElementById("play-btn").addEventListener("click", () => {
-      music.muted = false;
-      music.play();
-      document.getElementById("play-btn").style.display = "none";
+    /* =================== HEARTS ===================== */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = "-10vh";
+      heart.style.fontSize = (12 + Math.random() * 18) + "px";
+      document.body.appendChild(heart);
+
+      const dur = 3000 + Math.random() * 3000;
+
+      heart.animate([
+        { transform: "translateY(0) rotate(0)", opacity: 1 },
+        { transform: `translateY(${window.innerHeight + 200}px) rotate(360deg)`, opacity: 0.6 }
+      ], { duration: dur });
+
+      setTimeout(() => heart.remove(), dur + 50);
+    }
+
+    let heartsInterval = null;
+
+    /* =================== CONFETTI ===================== */
+    function createConfetti() {
+      const el = document.createElement("div");
+      el.className = "confetti-piece";
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.background = `hsl(${Math.random() * 360} 80% 60%)`;
+      el.style.top = "-10px";
+      document.body.appendChild(el);
+
+      const dur = 2000 + Math.random() * 2000;
+
+      el.animate([
+        { transform: "translateY(0) rotate(0)", opacity: 1 },
+        { transform: `translateY(${window.innerHeight + 200}px) rotate(540deg)`, opacity: 0.8 }
+      ], { duration: dur });
+
+      setTimeout(() => el.remove(), dur + 50);
+    }
+
+    let confettiInterval = null;
+
+    /* =================== PAGE WATCHER ===================== */
+    const observer = new MutationObserver(() => {
+      if (pages[2].classList.contains("active")) {
+        if (!heartsInterval) heartsInterval = setInterval(createHeart, 350);
+      } else {
+        clearInterval(heartsInterval);
+        heartsInterval = null;
+      }
+
+      if (pages[3].classList.contains("active")) {
+        if (!confettiInterval) confettiInterval = setInterval(createConfetti, 180);
+      } else {
+        clearInterval(confettiInterval);
+        confettiInterval = null;
+      }
+    });
+
+    pages.forEach(p => observer.observe(p, { attributes: true }));
+
+    /* =================== SWIPE SUPPORT ===================== */
+    let startX = null;
+
+    document.addEventListener("touchstart", e => startX = e.changedTouches[0].clientX);
+    document.addEventListener("touchend", e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) {
+        if (dx < 0 && idx < pages.length - 1) show(idx + 1);
+        if (dx > 0 && idx > 0) show(idx - 1);
+      }
+      startX = null;
     });
   </script>
-
 </body>
 
 </html>
