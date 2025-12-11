@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Untuk Kamu — Spesial</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --panel: #101b37;
+      --accent: #e41476;
+      --accent-2: #01aed6;
+      --glass: rgba(255, 255, 255, 0.06);
+      --text: #ffffff;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg-dark), #081126);
+      font-family: 'Poppins', system-ui, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased
+    }
+
+    /* app shell */
+    .app {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px
+    }
+
+    .card {
+      width: 360px;
+      max-width: calc(100% - 48px);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      box-shadow: 0 10px 30px rgba(4, 8, 20, 0.6);
+      overflow: hidden;
+      position: relative
+    }
+
+    /* Header / progress */
+    .progress {
+      display: flex;
+      gap: 6px;
+      padding: 14px 18px;
+      align-items: center;
+      justify-content: center
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12)
+    }
+
+    .dot.active {
+      background: var(--accent)
+    }
+
+    /* pages container */
+    .pages {
+      position: relative;
+      height: 520px;
+      min-height: 60vh;
+      overflow: hidden
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px)
+    }
+
+    .page.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2, .9, .3, 1)
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+      color: var(--accent-2);
+      text-shadow: 0 0 12px rgba(255, 160, 200, 0.6)
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.95)
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      padding: 18px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.12), transparent)
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(228, 20, 118, 0.18);
+      transition: transform .15s ease
+    }
+
+    .btn:active {
+      transform: translateY(1px)
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px)
+    }
+
+    /* special visuals */
+    .card .title-glow {
+      font-weight: 700
+    }
+
+    /* hearts (page3) */
+    .heart {
+      position: fixed;
+      left: -100px;
+      top: -100px;
+      font-size: 18px;
+      color: #ff6da6;
+      opacity: .9;
+      pointer-events: none
+    }
+
+    /* confetti (page4) */
+    .confetti-piece {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 12px;
+      opacity: 0.95;
+      border-radius: 2px
+    }
+
+    /* page 5 background overlay */
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.42) blur(2px);
+      z-index: 0
+    }
+
+    .page .content {
+      position: relative;
+      z-index: 2;
+      max-width: 86%
+    }
+
+    /* responsive tweaks */
+    @media (min-width:420px) {
+      .card {
+        width: 400px
+      }
+    }
+
+    @media (max-height:600px) {
+      .pages {
+        height: 460px
+      }
+    }
+
+    /* subtle entrance for buttons/text */
+    .fade-slow {
+      opacity: 0;
+      transform: translateY(6px);
+      animation: fadeUp .9s forwards
+    }
+
+    .fade-slow.delay {
+      animation-delay: .8s
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="card" role="application" aria-label="Website spesial">
+
+      <div class="progress" aria-hidden="true">
+        <div class="dot" data-step="1"></div>
+        <div class="dot" data-step="2"></div>
+        <div class="dot" data-step="3"></div>
+        <div class="dot" data-step="4"></div>
+        <div class="dot" data-step="5"></div>
+      </div>
+
+      <div class="pages">
+        <!-- PAGE 1 -->
+        <section class="page" id="page-1">
+
+          <div class="content">
+            <h1 class="title-glow">Untuk Wanita Favoritku 💗</h1>
+            <p class="fade-slow">Ini bukan website besar atau mewah — tapi dibuat sederhana, rapi, dan konsisten, sama
+              seperti perasaanku ke kamu.</p>
+            <div style="height:18px"></div>
+            <div class="controls" style="background: none; padding-top: 0;">
+              <button class="btn fade-slow delay" data-next id="play-btn">Mulai</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGE 2 -->
+        <section class="page" id="page-2">
+          <div class="content">
+            <h1 class="title-glow">Ola, My Queen 💗</h1>
+            <p class="fade-slow">Kalau kamu sampai di sini, berarti kamu penasaran. Halaman pertama cuma pembuka — di
+              sini aku cerita lebih jujur sedikit.</p>
+            <div style="height:18px"></div>
+            <button class="btn fade-slow delay" data-next>Lanjut sebentar...</button>
+          </div>
+        </section>
+
+        <!-- PAGE 3 (hearts) -->
+        <section class="page" id="page-3">
+          <div class="content">
+            <h1 class="title-glow">Masih di sini? 💗</h1>
+            <p class="fade-slow">Kalau kamu ikuti semuanya dari awal, aku senang. Aku buat satu halaman lagi yang
+              spesial — kamu siap?</p>
+            <div style="height:18px"></div>
+            <button class="btn fade-slow delay" data-next>Lanjut 👀</button>
+          </div>
+        </section>
+
+        <!-- PAGE 4 (birthday) -->
+        <section class="page" id="page-4">
+          <div class="content">
+            <h1 class="title-glow">Selamat Ulang Tahun <br> Putri Audia Syam 🎉</h1>
+            <p class="fade-slow">Hari ini adalah hari kamu. Semoga semua yang kamu harapkan mendekat dan kebahagiaan
+              selalu memilih tinggal di hidupmu.</p>
+            <div style="height:18px"></div>
+            <button class="btn fade-slow delay" data-next>Lihat Pesan Khusus</button>
+          </div>
+        </section>
+
+        <!-- PAGE 5 (special message) -->
+        <section class="page" id="page-5">
+          <div class="bg-photo" id="bg-photo"></div>
+          <div class="content">
+            <h1 class="title-glow">Untuk Kamu… Sayangku 💗</h1>
+            <p class="fade-slow">Ini halaman paling terakhir — pesan yang paling jujur. Kamu bukan cuma hadir, kamu
+              tinggal di hati aku.</p>
+            <div style="height:18px"></div>
+            <button class="btn fade-slow delay" id="btn-finish">Selesai ❤️</button>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="controls">
+        <button class="btn secondary" id="btn-prev">Kembali</button>
+        <button class="btn" id="btn-next">Lanjut</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- persistent audio (replace assets/music.mp3 with your file) -->
+  <audio id="bg-music" src="assets/music.mp3" autoplay loop muted></audio>
+
+
+
+  <script>
+
+    (function () {
+
+
+
+
+      const pages = Array.from(document.querySelectorAll('.page'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      let idx = 0; // current page index
+
+      // set background photo for page 5 (replace path if needed)
+      const bgPhoto = document.getElementById('bg-photo');
+      bgPhoto.style.backgroundImage = "url('assets/bg-final.jpg')";
+      const music = new Audio('assets/music.mp3');
+      music.loop = true;
+      document.addEventListener("click", () => {
+        const music = document.getElementById("bg-music");
+        if (music.muted) {
+          music.muted = false;
+          music.volume = 1.0;     // kembalikan volume
+        }
+      });
+
+      function show(i) {
+        pages.forEach((p, n) => {
+          p.classList.toggle('active', n === i);
+        });
+        dots.forEach((d, n) => d.classList.toggle('active', n === i));
+        idx = i;
+        updateControls();
+      }
+
+      function updateControls() {
+        btnPrev.style.display = idx === 0 ? 'none' : 'inline-block';
+        btnNext.style.display = idx === pages.length - 1 ? 'none' : 'inline-block';
+      }
+
+      // initial
+      show(0);
+
+      // attach data-next buttons inside pages
+      document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
+        if (idx < pages.length - 1) show(idx + 1);
+      }));
+
+      // main prev/next
+      btnPrev.addEventListener('click', () => { if (idx > 0) show(idx - 1); });
+      btnNext.addEventListener('click', () => { if (idx < pages.length - 1) show(idx + 1); });
+
+      // finish button returns to start
+      document.getElementById('btn-finish').addEventListener('click', () => show(0));
+
+      // hearts animation (page 3)
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '❤';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = '-10vh';
+        heart.style.fontSize = (12 + Math.random() * 18) + 'px';
+        document.body.appendChild(heart);
+        const dur = 3000 + Math.random() * 3000;
+        heart.animate([
+          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+          { transform: `translateY(${window.innerHeight + 200}px) rotate(360deg)`, opacity: 0.6 }
+        ], { duration: dur, easing: 'linear' });
+        setTimeout(() => heart.remove(), dur + 50);
+      }
+      let heartsInterval;
+      // confetti animation (page 4)
+      function createConfetti() {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.background = `hsl(${Math.random() * 360} 80% 60%)`;
+        el.style.top = '-10px';
+        document.body.appendChild(el);
+        const dur = 2000 + Math.random() * 2000;
+        el.animate([
+          { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+          { transform: `translateY(${window.innerHeight + 200}px) rotate(540deg)`, opacity: 0.8 }
+        ], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
+        setTimeout(() => el.remove(), dur + 50);
+      }
+      let confettiInterval;
+
+      // listen for page change to toggle animations
+      const observer = new MutationObserver(() => {
+        if (pages[2].classList.contains('active')) {
+          if (!heartsInterval) heartsInterval = setInterval(createHeart, 350);
+        } else {
+          clearInterval(heartsInterval); heartsInterval = null;
+        }
+        if (pages[3].classList.contains('active')) {
+          if (!confettiInterval) confettiInterval = setInterval(createConfetti, 180);
+        } else { clearInterval(confettiInterval); confettiInterval = null; }
+      });
+      observer.observe(pages[0], { attributes: true, attributeFilter: ['class'] });
+      observer.observe(pages[1], { attributes: true, attributeFilter: ['class'] });
+      observer.observe(pages[2], { attributes: true, attributeFilter: ['class'] });
+      observer.observe(pages[3], { attributes: true, attributeFilter: ['class'] });
+      observer.observe(pages[4], { attributes: true, attributeFilter: ['class'] });
+
+      // swipe support (mobile)
+      let startX = null;
+      document.addEventListener('touchstart', e => startX = e.changedTouches[0].clientX);
+      document.addEventListener('touchend', e => {
+        if (startX === null) return;
+        const endX = e.changedTouches[0].clientX;
+        const dx = endX - startX;
+        if (Math.abs(dx) > 50) { if (dx < 0 && idx < pages.length - 1) show(idx + 1); if (dx > 0 && idx > 0) show(idx - 1); }
+        startX = null;
+      });
+
+      // play background music — must be triggered by user gesture on some browsers
+      const audio = document.getElementById('bgm');
+      function tryPlay() {
+        audio.play().catch(() => {/* silence */ });
+      }
+      // try auto-play once page loads (many mobile browsers block auto-play until interaction)
+      window.addEventListener('load', tryPlay);
+      // if user clicks anywhere in app, try play (this ensures playback on mobile)
+      document.querySelector('.card').addEventListener('click', tryPlay, { once: true });
+
+      // keyboard support
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'Enter') { if (idx < pages.length - 1) show(idx + 1); }
+        if (e.key === 'ArrowLeft') { if (idx > 0) show(idx - 1); }
+      });
+
+    })();
+  </script>
+
+
+  <script>
+    const music = document.getElementById("bg-music");
+
+    music.play().then(() => {
+      document.getElementById("play-btn").style.display = "none";
+    }).catch(() => {
+      // Kalau autoplay gagal, munculkan tombol
+      document.getElementById("play-btn").style.display = "block";
+    });
+
+    document.getElementById("play-btn").addEventListener("click", () => {
+      music.muted = false;
+      music.play();
+      document.getElementById("play-btn").style.display = "none";
+    });
+  </script>
+
+</body>
+
+</html>
